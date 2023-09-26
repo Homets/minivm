@@ -25,14 +25,24 @@ public class Parser {
     O------------------- -O
 
      */
-    public List capture_instruction(File file){
+    public static List capture_instruction(File file){
         List<String> all_instructions = new ArrayList<String>();
         try {
             Scanner scanner = new Scanner(file);
+            while(scanner.hasNextLine()){
+                if(instruction_is_valid(scanner.nextLine())){
+                    System.out.println("instruction is valid");
+                }
+            }
 
         } catch (FileNotFoundException err){
             System.out.println(err.fillInStackTrace());
         }
         return null;
+    }
+
+    private static boolean instruction_is_valid(String instruction){
+        System.out.println("check instruction");
+        return true;
     }
  }
