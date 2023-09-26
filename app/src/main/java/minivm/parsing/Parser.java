@@ -1,12 +1,12 @@
 package minivm.parsing;
-import com.google.common.collect.ImmutableList;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Pattern;
+
+import java.io.FileNotFoundException;
 
 public class Parser {
     /*
@@ -42,7 +42,13 @@ public class Parser {
     }
 
     private static boolean instruction_is_valid(String instruction){
-        System.out.println("check instruction");
+        if (instruction.isEmpty()) {
+            return false;
+        } else{
+            if(Pattern.matches("(add|mov|sub)\\s+(a|b|c|d)\\s*,\\s*(a|b|c|d|[0-9]+)", instruction)){
+                return true;
+            }
+        }
         return true;
     }
  }
