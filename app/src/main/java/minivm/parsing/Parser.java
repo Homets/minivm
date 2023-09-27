@@ -33,7 +33,7 @@ public class Parser {
             while(scanner.hasNextLine()){
                 String instruction = scanner.nextLine();
                 if(instruction_is_valid(instruction)){
-                    cut_instruction(instruction.trim());
+                    all_instructions.add(cut_instruction(instruction.trim()));
                 }
             }
 
@@ -45,7 +45,6 @@ public class Parser {
 
     //Use regex to check if a instruction line is valid. One regex for each syntax possible
     private static boolean instruction_is_valid(String instruction){
-        //System.out.println(instruction);
         if (instruction.isEmpty()) {
             return false;
         } else{
@@ -69,8 +68,16 @@ public class Parser {
         List<String> token_list = new ArrayList<String>();
         String first_part = instruction.substring(0, instruction.indexOf(" ")); //instruction
         String second_part = instruction.substring(instruction.indexOf(" "), instruction.length()); //all operand
-        
+
         token_list.add(first_part);
-        return null;
+        if (second_part.contains(",")){
+            token_list.add(second_part.split(",")[0].trim());
+            token_list.add(second_part.split(",")[1].trim());
+        } else {
+            token_list.add(second_part.trim());
+        }
+
+
+        return token_list;
     }
  }
