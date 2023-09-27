@@ -26,12 +26,14 @@ public class Parser {
 
      */
     public static List capture_instruction(File file){
-        List<String> all_instructions = new ArrayList<String>();
+        List<List> all_instructions = new ArrayList<List>();
         try {
             Scanner scanner = new Scanner(file);
+
             while(scanner.hasNextLine()){
-                if(instruction_is_valid(scanner.nextLine())){
-                    System.out.println("instruction is valid");
+                String instruction = scanner.nextLine();
+                if(instruction_is_valid(instruction)){
+                    cut_instruction(instruction.trim());
                 }
             }
 
@@ -41,14 +43,34 @@ public class Parser {
         return null;
     }
 
+    //Use regex to check if a instruction line is valid. One regex for each syntax possible
     private static boolean instruction_is_valid(String instruction){
+        //System.out.println(instruction);
         if (instruction.isEmpty()) {
             return false;
         } else{
-            if(Pattern.matches("(add|mov|sub)\\s+(a|b|c|d)\\s*,\\s*(a|b|c|d|[0-9]+)", instruction)){
+            if(Pattern.matches("(add|mov|sub|xor|cmp|mul|div)\\s+(a|b|c|d)\\s*,\\s*(a|b|c|d|[0-9]+)\\s*", instruction)){
+                //System.out.println(instruction + " is valid \n");
                 return true;
+            }else if(Pattern.matches("(push|pop)\\s+(a|b|c|d|(0|[1-9][0-9]+))\\s*", instruction)){
+                //System.out.println(instruction + " is valid \n");
+                return true;
+            } else if(Pattern.matches("(jmp|je|jne|jge|jz|jnz)\\s+(0|[1-9][0-9]+)\\s*", instruction)){
+                //System.out.println(instruction + " is valid \n");
+                return true;
+            } else {
+                return false;
             }
         }
-        return true;
+    }
+    //This function is use to seperate all element of an instruction.
+    //List returned will be like => [instruction, first operand, second operand (optionnal)]
+    private static List cut_instruction(String instruction){
+        List<String> token_list = new ArrayList<String>();
+        String first_part = instruction.substring(0, instruction.indexOf(" ")); //instruction
+        String second_part = instruction.substring(instruction.indexOf(" "), instruction.length()); //all operand
+        
+        token_list.add(first_part);
+        return null;
     }
  }
