@@ -42,7 +42,7 @@ public class Parser {
         } catch (FileNotFoundException err){
             throw new FileIsNotValid("File is empty or not valid");
         }
-        return null;
+        return all_instructions;
     }
 
     //Use regex to check if a instruction line is valid. One regex for each syntax possible
