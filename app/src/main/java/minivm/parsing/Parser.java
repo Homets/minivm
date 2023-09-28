@@ -1,5 +1,7 @@
 package minivm.parsing;
 
+import minivm.exception.FileIsNotValid;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +27,7 @@ public class Parser {
     O------------------- -O
 
      */
-    public static List capture_instruction(File file){
+    public static List capture_instruction(File file) throws FileIsNotValid {
         List<List> all_instructions = new ArrayList<List>();
         try {
             Scanner scanner = new Scanner(file);
@@ -38,7 +40,7 @@ public class Parser {
             }
 
         } catch (FileNotFoundException err){
-            System.out.println(err.fillInStackTrace());
+            throw new FileIsNotValid("File is empty or not valid");
         }
         return null;
     }
