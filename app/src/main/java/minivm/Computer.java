@@ -3,12 +3,13 @@ package minivm;
 import java.io.File;
 import java.util.List;
 
+import jdk.nashorn.internal.runtime.regexp.joni.exception.ValueException;
 import minivm.exception.FileIsNotValid;
 import minivm.parsing.Parser;
 
 public class Computer {
 
-    private String a, b, c, d;
+    private int a, b, c, d;
     private int ip = 1, bp, sp;
     private int zf, sf;
     private File file_to_execute;
@@ -66,31 +67,67 @@ public class Computer {
         }
     }
 
-
-    //instruction function
-
-
-    //All getter and setter
-    public int get_ip() {return this.ip;}
-    public int get_bp() {return this.bp;}
-    public int get_sp() {return this.sp;}
-    public int get_zf(){return this.zf;}
-    public int get_sf(){return this.sf;}
-    public String get_a() {return this.a;}
-    public String get_b() {return this.b;}
-    public String get_c() {return this.c;}
-    public String get_d() {return this.d;}
+    //Getter and Setter for register will one function for all register
+    //To make easier the writing of the instructions
+    public int get_register(String register){
+        switch (register){
+            case "a":
+                return this.a;
+            case "b":
+                return this.b;
+            case "c":
+                return this.c;
+            case "d":
+                return this.d;
+            case "ip":
+                return this.ip;
+            case "bp":
+                return this.bp;
+            case "sp":
+                return this.sp;
+            case "zf":
+                return this.zf;
+            case "sf":
+                return this.sf;
+            default:
+                throw new ValueException("Register are not valid");
+        }
+    }
+    public void set_register(String register, int value){
+        switch (register){
+            case "a":
+                this.a = value;
+                break;
+            case "b":
+                this.b = value;
+                break;
+            case "c":
+                this.c = value;
+                break;
+            case "d":
+                this.d = value;
+                break;
+            case "ip":
+                this.ip = value;
+                break;
+            case "bp":
+                this.bp = value;
+                break;
+            case "sp":
+                this.sp = value;
+                break;
+            case "zf":
+                this.zf = value;
+                break;
+            case "sf":
+                this.sf = value;
+                break;
+            default:
+                throw new ValueException("Register are not valid");
+        }
+    }
     public List get_instructions() {return this.file_instructions;}
 
-    public void set_ip(int ip) {this.ip = ip;}
-    public void set_bp(int bp) {this.bp = bp;}
-    public void set_sp(int sp) {this.sp = sp;}
-    public void set_zf(int zf){this.zf = zf;}
-    public void set_sf(int sf){this.sf = sf;}
-    public void set_a(String a) {this.a = a;}
-    public void set_b(String b) {this.b = b;}
-    public void set_c(String c) {this.c = c;}
-    public void set_d(String d) {this.d = d;}
     public void set_file(File file){
         this.file_to_execute = file;
         try {
