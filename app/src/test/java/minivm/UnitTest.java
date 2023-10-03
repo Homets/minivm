@@ -19,10 +19,23 @@ public class UnitTest {
         computer.set_file(file);
         List<List> instructions_list = computer.get_instructions();
         assertEquals(4, instructions_list.size());
-        assertEquals("mov", instructions_list.get(0).get(0) );
-        assertEquals("65", instructions_list.get(1).get(1));
+        assertEquals("mov", instructions_list.get(0).get(0));
+        assertEquals("a", instructions_list.get(0).get(1));
+        assertEquals("50", instructions_list.get(0).get(2));
 
+        assertEquals("jmp", instructions_list.get(1).get(0));
+        assertEquals("65", instructions_list.get(1).get(1));
     }
+
+    @Test public void testAdd(){
+        Computer computer = new Computer();
+        File file = new File("file_exemples/one.txt");
+        computer.set_file(file);
+        computer.execute();
+        int register_a = computer.get_register("a");
+        assertEquals(50, register_a);
+    }
+
 
 
 }

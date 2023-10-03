@@ -2,10 +2,10 @@ package minivm;
 
 import java.io.File;
 import java.util.List;
-
 import jdk.nashorn.internal.runtime.regexp.joni.exception.ValueException;
 import minivm.exception.FileIsNotValid;
 import minivm.parsing.Parser;
+import minivm.instructions.Instructions;
 
 public class Computer {
 
@@ -29,22 +29,29 @@ public class Computer {
     }
 
     public void execute(){
-        while (this.ip < file_instructions.size()){
+        Instructions vm_instruction_list = new Instructions();
+        while (this.ip <= file_instructions.size()){
             List<String> instruction = file_instructions.get(this.ip - 1);
             switch (instruction.get(0)){
                 case "mov":
+                    vm_instruction_list.mov(this, instruction.get(1), instruction.get(2));
                     break;
                 case "add":
+                    vm_instruction_list.add(this, instruction.get(1), instruction.get(2));
                     break;
                 case "sub":
+                    vm_instruction_list.sub(this, instruction.get(1), instruction.get(2));
                     break;
                 case "xor":
                     break;
                 case "cmp":
+                    vm_instruction_list.cmp(this, instruction.get(1), instruction.get(2));
                     break;
                 case "mul":
+                    vm_instruction_list.mul(this, instruction.get(1), instruction.get(2));
                     break;
                 case "div":
+                    vm_instruction_list.div(this, instruction.get(1), instruction.get(2));
                     break;
                 case "pop":
                     break;
@@ -64,6 +71,7 @@ public class Computer {
                     break;
 
             }
+            this.ip += 1;
         }
     }
 
