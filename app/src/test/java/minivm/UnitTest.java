@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 
 public class UnitTest {
     //Test if instruction is correcly cut by the parser
-    @Test public void correctLineNumbers(){
+    @Test public void correct_line_number(){
         Computer computer = new Computer();
         File file = new File("file_exemples/one.txt");
         computer.set_file(file);
@@ -27,15 +27,34 @@ public class UnitTest {
         assertEquals("65", instructions_list.get(1).get(1));
     }
 
-    @Test public void testAdd(){
-        Computer computer = new Computer();
-        File file = new File("file_exemples/one.txt");
-        computer.set_file(file);
-        computer.execute();
+    @Test public void test_arithmetic(){
+        Computer computer = new Computer(new File("file_exemples/arithmetic.txt"));
         int register_a = computer.get_register("a");
+        int register_b = computer.get_register("b");
+        int register_c = computer.get_register("c");
+        int register_d = computer.get_register("d");
         assertEquals(50, register_a);
+        assertEquals(10, register_b);
+        assertEquals(100, register_c);
+        assertEquals(25, register_d);
     }
 
+    @Test public void test_flags(){
+        Computer computer = new Computer(new File("file_exemples/test_flags.txt"));
+        int register_a = computer.get_register("a");
+        int register_zf = computer.get_register("zf");
+        int register_sf = computer.get_register("sf");
 
+        assertEquals(0, register_zf);
+        assertEquals(1, register_sf);
+    }
+
+    @Test public void test_jump(){
+        Computer computer = new Computer(new File("file_exemples/test_jump.txt"));
+        int register_a = computer.get_register("a");
+
+        assertEquals(5, register_a);
+
+    }
 
 }

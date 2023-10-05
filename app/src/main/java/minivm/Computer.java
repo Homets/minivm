@@ -11,27 +11,29 @@ public class Computer {
 
     private int a, b, c, d;
     private int ip = 1, bp, sp;
-    private int zf, sf;
+    private int zf = 1, sf = 0;
     private File file_to_execute;
     private List<List> file_instructions;
 
 
     public Computer(){};
+
     public Computer(File file){
         this.file_to_execute = file;
-
         try {
-            this.file_instructions = Parser.capture_instruction(file);
+            this.file_instructions = Parser.capture_instructions(file);
+            this.execute();
         } catch (FileIsNotValid e) {
             throw new RuntimeException(e);
         }
 
     }
 
+    //This will execute the instructions parsed by function capture_instructions
     public void execute(){
         Instructions vm_instruction_list = new Instructions();
         while (this.ip <= file_instructions.size()){
-            List<String> instruction = file_instructions.get(this.ip - 1);
+            List<String> instruction = file_instructions.get(this.ip - 1); //this.ip - 1 because ip will be one based indexing
             switch (instruction.get(0)){
                 case "mov":
                     vm_instruction_list.mov(this, instruction.get(1), instruction.get(2));
@@ -53,11 +55,18 @@ public class Computer {
                 case "div":
                     vm_instruction_list.div(this, instruction.get(1), instruction.get(2));
                     break;
+                case "inc":
+                    vm_instruction_list.inc(this, instruction.get(1));
+                    break;
+                case "dec":
+                    vm_instruction_list.dec(this, instruction.get(1));
+                    break;
                 case "pop":
                     break;
                 case "push":
                     break;
                 case "jmp":
+                    vm_instruction_list.jmp(this, instruction.get(1));
                     break;
                 case "je":
                     break;
@@ -66,12 +75,13 @@ public class Computer {
                 case "jge":
                     break;
                 case "jz":
+                    vm_instruction_list.jz(this, instruction.get(1));
                     break;
                 case "jnz":
                     break;
 
             }
-            this.ip += 1;
+            set_register("ip", get_register("ip") + 1);
         }
     }
 
@@ -139,7 +149,8 @@ public class Computer {
     public void set_file(File file){
         this.file_to_execute = file;
         try {
-            this.file_instructions = Parser.capture_instruction(this.file_to_execute);
+            this.file_instructions = Parser.capture_instructions(this.file_to_execute);
+            this.execute();
         } catch (FileIsNotValid e) {
             throw new RuntimeException(e);
         }

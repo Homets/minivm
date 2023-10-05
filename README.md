@@ -35,11 +35,15 @@ cmp = compare the first and the last operand
 ```
 push = put the value on the top of the stack
 pop = Loads the value from the top of the stack to the location specified
+inc = incrementation
+dec = decrementation
 jmp = jump to the instruction pointed by the integer provided
 je = jump if zero flag is equal to 1
 jne = jump if zero flag is equal to 0
 jge = jump if sign flag is equal to 0
+jg = jump if sign flag is equal to 0 and zero flag equal 0
 jle = jump if sign flag is equal to 1
+jl = jump if sign flag is equal to 1 and zero flag equal 0
 jz = jump if zero flag is equal to 1
 jnz = jump if zero flag is equal to 0
 ```

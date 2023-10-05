@@ -27,7 +27,7 @@ public class Parser {
     O------------------- -O
 
      */
-    public static List capture_instruction(File file) throws FileIsNotValid {
+    public static List capture_instructions(File file) throws FileIsNotValid {
         List<List> all_instructions = new ArrayList<List>();
         try {
             Scanner scanner = new Scanner(file);
@@ -45,23 +45,22 @@ public class Parser {
         return all_instructions;
     }
 
-    //Use regex to check if a instruction line is valid. One regex for each syntax possible
+    //Use regex to check if an instruction line is valid. One regex for each syntax possible
+    //If the line is valid return true so that the function capture_instruction
+    //can add this line to the instructions list
     private static boolean instruction_is_valid(String instruction){
         if (instruction.isEmpty()) {
             return false;
         } else{
-            if(Pattern.matches("(add|mov|sub|xor|cmp|mul|div)\\s+(a|b|c|d)\\s*,\\s*(a|b|c|d|[0-9]+)\\s*", instruction)){
-                //System.out.println(instruction + " is valid \n");
+            if(Pattern.matches("(add|mov|sub|xor|mul|div)\\s+(a|b|c|d)\\s*,\\s*(a|b|c|d|[0-9]+)\\s*", instruction)){
                 return true;
-            }else if(Pattern.matches("(push|pop)\\s+(a|b|c|d|(0|[1-9][0-9]+))\\s*", instruction)){
-                //System.out.println(instruction + " is valid \n");
+            } else if (Pattern.matches("cmp\\s+(a|b|c|d|[0-9]+)\\s*,\\s*(a|b|c|d|[0-9]+)\\s*", instruction)){
                 return true;
-            } else if(Pattern.matches("(jmp|je|jne|jge|jz|jnz)\\s+(0|[1-9][0-9]+)\\s*", instruction)){
-                //System.out.println(instruction + " is valid \n");
+            }else if (Pattern.matches("(push|pop)\\s+(a|b|c|d|(0|[1-9][0-9]*))\\s*", instruction)){
                 return true;
-            } else {
-                return false;
-            }
+            } else if(Pattern.matches("(jmp|je|jne|jge|jz|jnz|jg|jl)\\s+(0|[1-9][0-9]*)\\s*", instruction)){
+                return true;
+            } else {return Pattern.matches("(inc|dec)\\s+(a|b|c|d)", instruction);}
         }
     }
     //This function is use to seperate all element of an instruction.
