@@ -57,4 +57,16 @@ public class UnitTest {
 
     }
 
+    @Test public void test_push_pop(){
+        Computer computer = new Computer((new File("file_exemples/push_pop.txt")));
+        int register_b = computer.get_register("b");
+        int register_c = computer.get_register("c");
+        int register_d = computer.get_register("d");
+
+        assertEquals(45, register_b);
+        assertEquals(45, register_c);
+        assertEquals(6, register_d);
+
+    }
+
 }

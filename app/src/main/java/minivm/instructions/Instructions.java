@@ -160,6 +160,24 @@ public class Instructions {
             computer.set_register("ip", operand - 1); //need -1 because ip is one-based indexed and not List
         }
     }
+
+    public  void push(Computer computer, String op1){
+        int value;
+        if (op1.equals("a") || op1.equals("b") || op1.equals("c") || op1.equals("d")){
+            value = computer.get_register(op1);
+        } else {
+            value = Integer.parseInt(op1);
+        }
+        computer.set_stack_value(computer.get_register("sp"), value);
+        computer.set_register("sp", computer.get_register("sp") + 1);
+    }
+
+    //need stack pointer - 1 because stack pointer is set to the top value + 1
+    public void pop(Computer computer, String op1){
+        computer.set_register(op1, computer.get_stack_value(computer.get_register("sp") - 1));
+        computer.set_stack_value(computer.get_register("sp") - 1, null);
+        computer.set_register("sp", computer.get_register("sp") - 1);
+    }
 }
 
 

@@ -1,6 +1,7 @@
 package minivm;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import jdk.nashorn.internal.runtime.regexp.joni.exception.ValueException;
 import minivm.exception.FileIsNotValid;
@@ -10,10 +11,12 @@ import minivm.instructions.Instructions;
 public class Computer {
 
     private int a, b, c, d;
-    private int ip = 1, bp, sp;
+    private int ip = 1, bp = 0, sp = 0;
     private int zf = 1, sf = 0;
     private File file_to_execute;
     private List<List> file_instructions;
+    private Integer[] stack = new Integer[100];
+
 
 
     public Computer(){};
@@ -62,8 +65,11 @@ public class Computer {
                     vm_instruction_list.dec(this, instruction.get(1));
                     break;
                 case "pop":
+                    vm_instruction_list.pop(this, instruction.get(1));
+
                     break;
                 case "push":
+                    vm_instruction_list.push(this, instruction.get(1));
                     break;
                 case "jmp":
                     vm_instruction_list.jmp(this, instruction.get(1));
@@ -144,8 +150,10 @@ public class Computer {
                 throw new ValueException("Register are not valid");
         }
     }
+
     public List get_instructions() {return this.file_instructions;}
 
+    //used to change the asm file that can be executed
     public void set_file(File file){
         this.file_to_execute = file;
         try {
@@ -153,6 +161,21 @@ public class Computer {
             this.execute();
         } catch (FileIsNotValid e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public void set_stack_value(int index, Integer value) {
+        if (index < 100){
+            this.stack[index] = value;
+        } else {
+            throw new ValueException("Index error");
+        }
+    }
+    public int get_stack_value(int index){
+        if (index < 100){
+            return this.stack[index];
+        } else {
+            throw new ValueException("Index error");
         }
     }
 
