@@ -48,6 +48,7 @@ public class Computer {
                     vm_instruction_list.sub(this, instruction.get(1), instruction.get(2));
                     break;
                 case "xor":
+                    vm_instruction_list.xor(this, instruction.get(1), instruction.get(2));
                     break;
                 case "cmp":
                     vm_instruction_list.cmp(this, instruction.get(1), instruction.get(2));
@@ -66,7 +67,6 @@ public class Computer {
                     break;
                 case "pop":
                     vm_instruction_list.pop(this, instruction.get(1));
-
                     break;
                 case "push":
                     vm_instruction_list.push(this, instruction.get(1));
@@ -75,15 +75,25 @@ public class Computer {
                     vm_instruction_list.jmp(this, instruction.get(1));
                     break;
                 case "je":
+                    vm_instruction_list.je(this, instruction.get(1));
                     break;
                 case "jne":
+                    vm_instruction_list.jne(this, instruction.get(1));
                     break;
                 case "jge":
+                    vm_instruction_list.jge(this, instruction.get(1));
                     break;
+                case "jle":
+                    vm_instruction_list.jle(this, instruction.get(1));
+                case "jl":
+                    vm_instruction_list.jl(this, instruction.get(1));
+                case "jg":
+                    vm_instruction_list.jg(this, instruction.get(1));
                 case "jz":
                     vm_instruction_list.jz(this, instruction.get(1));
                     break;
                 case "jnz":
+                    vm_instruction_list.jnz(this, instruction.get(1));
                     break;
 
             }
@@ -172,7 +182,7 @@ public class Computer {
         }
     }
     public int get_stack_value(int index){
-        if (index < 100){
+        if (index >= 0 && index < 100){
             return this.stack[index];
         } else {
             throw new ValueException("Index error");

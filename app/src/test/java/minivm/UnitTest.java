@@ -52,9 +52,7 @@ public class UnitTest {
     @Test public void test_jump(){
         Computer computer = new Computer(new File("file_exemples/test_jump.txt"));
         int register_a = computer.get_register("a");
-
         assertEquals(5, register_a);
-
     }
 
     @Test public void test_push_pop(){
@@ -66,6 +64,15 @@ public class UnitTest {
         assertEquals(45, register_b);
         assertEquals(45, register_c);
         assertEquals(6, register_d);
+
+    }
+    @Test public void test_xor(){
+        Computer computer = new Computer((new File("file_exemples/xor_file.txt")));
+        int register_a = computer.get_register("a");
+        int register_c= computer.get_register("c");
+
+        assertEquals(3, register_a);
+        assertEquals(0, register_c);
 
     }
 

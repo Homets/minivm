@@ -3,13 +3,14 @@ package minivm.instructions;
 import minivm.Computer;
 public class Instructions {
 
-    //this function will be call after each arithemtic/comparaison instruction
+    //this function will be call after each arithmetic/comparison instruction
     public void modify_flag(Computer computer, int value){
         if (value == 0){computer.set_register("zf", 1 ); computer.set_register("sf", 0);}
         else if (value > 0) {computer.set_register("zf", 0); computer.set_register("sf",0);}
         else { computer.set_register("zf", 0); computer.set_register("sf", 1);}
     }
 
+    //Two operand function
     public void add(Computer computer, String op1, String op2){
         int result;
         if (op2.equals("a") || op2.equals("b") || op2.equals("c") || op2.equals("d")){
@@ -52,13 +53,15 @@ public class Instructions {
         modify_flag(computer, result);
         computer.set_register(op1, result);
     }
+
     public void mov(Computer computer, String op1, String op2){
             if (op2.equals("a") || op2.equals("b") || op2.equals("c") || op2.equals("d")){
                 computer.set_register(op1, computer.get_register(op2));
             } else {
                 computer.set_register(op1, Integer.parseInt(op2));
             }
-        }
+    }
+
     public void cmp(Computer computer, String op1, String op2){
         //need two int value, to check if operands are register or integer value;
         //This permit to have an easier read of conditions
@@ -73,6 +76,17 @@ public class Instructions {
         modify_flag(computer, Math.abs(first_value) - Math.abs(second_value));
     }
 
+    public void xor(Computer computer, String op1, String op2) {
+        int result;
+        if (op2.equals("a") || op2.equals("b") || op2.equals("c") || op2.equals("d")) {
+            result = computer.get_register(op1)^computer.get_register(op2);
+        } else {result = computer.get_register(op1)^Integer.parseInt(op2);}
+        modify_flag(computer, result);
+        computer.set_register(op1, result);
+    }
+
+
+    //One operand function
     public void inc(Computer computer, String op1){
         int result = computer.get_register(op1) + 1;
         computer.set_register(op1, result);
@@ -84,6 +98,8 @@ public class Instructions {
         modify_flag(computer, result);
     }
 
+
+    //Jump function
     public void jmp(Computer computer, String op1){
         int operand = Integer.parseInt(op1);
         int instructions_size = computer.get_instructions().size();
