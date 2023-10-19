@@ -1,6 +1,10 @@
 package minivm.instructions;
 
+import jdk.nashorn.internal.runtime.regexp.joni.exception.ValueException;
 import minivm.Computer;
+
+import java.util.Arrays;
+
 public class Instructions {
 
     //this function will be call after each arithmetic/comparison instruction
@@ -194,6 +198,37 @@ public class Instructions {
         computer.set_stack_value(computer.get_register("sp") - 1, null);
         computer.set_register("sp", computer.get_register("sp") - 1);
     }
+
+    /*
+     Print will take a number of integer in the stack
+     Each integer will be transformed to a char, be added to the string and print the string
+     //will start taking char on the bp pointer.
+     Print function will take the "a" register for the length of the string printed
+    */
+
+    public void print(Computer computer, int length){
+        String char_string = "";
+        try {
+            for (int i = 0; i < length; i++) {
+
+                int ascii_code = computer.get_stack_value(computer.get_register("bp") + i);
+                if (ascii_code >= 0 && ascii_code <= 127) {
+                    char char_ascii = (char) ascii_code;
+                    char_string += Character.toString(char_ascii);
+
+                } else {
+                    throw new ValueException("");
+                }
+            }
+        } catch (NullPointerException e){
+            System.out.println("print function check stack or length to resolve problem");
+            computer.set_register("cf", 0);
+            return;
+        }
+        System.out.println(char_string);
+        computer.set_register("cf", 1);
+    }
+
 }
 
 

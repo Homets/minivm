@@ -2,17 +2,19 @@ package minivm;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import jdk.nashorn.internal.runtime.regexp.joni.exception.ValueException;
 import minivm.exception.FileIsNotValid;
 import minivm.parsing.Parser;
 import minivm.instructions.Instructions;
+import org.checkerframework.checker.units.qual.Length;
 
 public class Computer {
 
     private int a, b, c, d;
     private int ip = 1, bp = 0, sp = 0;
-    private int zf = 1, sf = 0;
+    private int zf = 1, sf = 0, cf = 0;
     private File file_to_execute;
     private List<List> file_instructions;
     private Integer[] stack = new Integer[100];
@@ -95,6 +97,9 @@ public class Computer {
                 case "jnz":
                     vm_instruction_list.jnz(this, instruction.get(1));
                     break;
+                case "print":
+                    vm_instruction_list.print(this, Integer.parseInt(instruction.get(1)));
+                    break;
 
             }
             set_register("ip", get_register("ip") + 1);
@@ -123,6 +128,8 @@ public class Computer {
                 return this.zf;
             case "sf":
                 return this.sf;
+            case "cf":
+                return this.cf;
             default:
                 throw new ValueException("Register are not valid");
         }
@@ -156,6 +163,9 @@ public class Computer {
             case "sf":
                 this.sf = value;
                 break;
+            case "cf":
+                this.cf = value;
+                break;
             default:
                 throw new ValueException("Register are not valid");
         }
@@ -188,5 +198,6 @@ public class Computer {
             throw new ValueException("Index error");
         }
     }
+
 
 }

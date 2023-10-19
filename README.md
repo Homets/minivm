@@ -14,6 +14,7 @@ bp = base pointer
 ```
 zf = zero flag 
 sf = sign flag
+cf = call flag (created for my vm to check succes of last syscall)
 ```
 ****
 #### Data Register
@@ -46,6 +47,10 @@ jle = jump if sign flag is equal to 1
 jl = jump if sign flag is equal to 1 and zero flag equal 0
 jz = jump if zero flag is equal to 1
 jnz = jump if zero flag is equal to 0
+```
+###### Syscall
+```
+print = print a message with element in the stack
 ```
 
 

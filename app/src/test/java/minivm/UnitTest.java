@@ -4,7 +4,9 @@
 package minivm;
 import minivm.Computer;
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.io.File;
 import java.util.List;
@@ -12,6 +14,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class UnitTest {
+
     //Test if instruction is correcly cut by the parser
     @Test public void correct_line_number(){
         Computer computer = new Computer();
@@ -67,13 +70,26 @@ public class UnitTest {
 
     }
     @Test public void test_xor(){
-        Computer computer = new Computer((new File("file_exemples/xor_file.txt")));
+        Computer computer = new Computer(new File("file_exemples/xor_file.txt"));
         int register_a = computer.get_register("a");
         int register_c= computer.get_register("c");
 
         assertEquals(3, register_a);
         assertEquals(0, register_c);
 
+    }
+    @Test public void test_print(){
+        Computer computer = new Computer(new File("file_exemples/print_syscall.txt"));
+        int flag_cf = computer.get_register("cf");
+
+        assertEquals(1, flag_cf);
+
+    }
+    @Test public void test_error_print(){
+        Computer computer = new Computer(new File("file_exemples/error_print.txt"));
+        int flag_cf = computer.get_register("cf");
+
+        assertEquals(0, flag_cf);
     }
 
 }

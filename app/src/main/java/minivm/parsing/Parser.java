@@ -52,15 +52,16 @@ public class Parser {
         if (instruction.isEmpty()) {
             return false;
         } else{
+            //pattern matching need a refactor
             if(Pattern.matches("(add|mov|sub|xor|mul|div)\\s+([abcd])\\s*,\\s*(a|b|c|d|[0-9]+)\\s*", instruction)){
                 return true;
             } else if (Pattern.matches("cmp\\s+(a|b|c|d|[0-9]+)\\s*,\\s*(a|b|c|d|[0-9]+)\\s*", instruction)){
                 return true;
             }else if (Pattern.matches("(push\\s+(a|b|c|d|(0|[1-9][0-9]*))\\s*|pop\\s+([abcd])\\s*)", instruction)){
                 return true;
-            } else if(Pattern.matches("(jmp|je|jne|jge|jz|jnz|jg|jl)\\s+(0|[1-9][0-9]*)\\s*", instruction)){
+            } else if(Pattern.matches("(jmp|je|jne|jge|jz|jnz|jg|jl|print)\\s+(0|[1-9][0-9]*)\\s*", instruction)){
                 return true;
-            } else {return Pattern.matches("(inc|dec)\\s+([abcd])", instruction);}
+            }else {return Pattern.matches("(inc|dec)\\s+([abcd])", instruction);}
         }
     }
     //This function is use to seperate all element of an instruction.
